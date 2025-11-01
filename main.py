@@ -14,6 +14,27 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# Set up Google Application Default Credentials from JSON string
+# This must happen BEFORE any Google library imports
+import json
+import tempfile
+
+if os.environ.get('GCP_SERVICE_ACCOUNT_JSON'):
+    try:
+        credentials_json = os.environ['GCP_SERVICE_ACCOUNT_JSON']
+
+        # Write credentials to a temporary file
+        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+            f.write(credentials_json)
+            temp_creds_path = f.name
+
+        # Set GOOGLE_APPLICATION_CREDENTIALS for all Google libraries
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
+        print(f"✓ Set GOOGLE_APPLICATION_CREDENTIALS to {temp_creds_path}")
+
+    except Exception as e:
+        print(f"⚠️  Failed to set up Google credentials: {e}")
+
 # Configure Logfire early in startup
 from src.utils.logfire_config import configure_logfire
 configure_logfire()
