@@ -136,6 +136,21 @@ async def health_check():
         "architecture": "Phase 1 - State-Driven with Intent Routing"
     }
 
+# Debug endpoint to check Railway environment variables
+@app.get("/debug/env")
+async def debug_env():
+    """Debug endpoint to check Railway environment variables."""
+    import os
+    return {
+        "RAILWAY_PROJECT_ID": os.environ.get('RAILWAY_PROJECT_ID'),
+        "RAILWAY_ENVIRONMENT_NAME": os.environ.get('RAILWAY_ENVIRONMENT_NAME'),
+        "RAILWAY_SERVICE_ID": os.environ.get('RAILWAY_SERVICE_ID'),
+        "RAILWAY_ENVIRONMENT": os.environ.get('RAILWAY_ENVIRONMENT'),
+        "has_gcp_json": bool(os.environ.get('GCP_SERVICE_ACCOUNT_JSON')),
+        "is_production_check": os.environ.get('RAILWAY_PROJECT_ID') is not None,
+        "settings_is_production": settings.is_production
+    }
+
 # Test endpoint for WebSocketHandler initialization
 @app.get("/test-handler")
 async def test_handler():
