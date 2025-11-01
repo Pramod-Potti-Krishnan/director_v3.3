@@ -117,7 +117,7 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         """Check if running in production environment (Railway)."""
-        return os.environ.get('RAILWAY_ENVIRONMENT') is not None
+        return os.environ.get('RAILWAY_PROJECT_ID') is not None
 
     def validate_settings(self) -> None:
         """

@@ -40,8 +40,8 @@ def is_production_environment() -> bool:
     Returns:
         True if in production, False if local development
     """
-    # Railway sets RAILWAY_ENVIRONMENT variable
-    return os.environ.get('RAILWAY_ENVIRONMENT') is not None
+    # Railway automatically sets RAILWAY_PROJECT_ID variable
+    return os.environ.get('RAILWAY_PROJECT_ID') is not None
 
 
 def initialize_vertex_ai(force_reinit: bool = False) -> None:
